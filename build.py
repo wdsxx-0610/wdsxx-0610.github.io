@@ -17,8 +17,8 @@ REPO_NAME   = f"{GITHUB_USER}.github.io"
 
 NAME_EN   = "Xiang Li"
 NAME_CN   = "李翔"
-ROLE      = "Ph.D. Student (Joint Training)"
-AFFIL_1   = "BNU–HKBU United International College"
+ROLE      = "Ph.D. Student in Computer Science"
+AFFIL_1   = "Beijing Normal-Hong Kong Baptist University (BNBU)"
 AFFIL_2   = "Great Bay University"
 LOCATION  = "Guangdong, China"
 EMAIL     = "vpe029@usask.ca"
@@ -39,7 +39,7 @@ LINKS = [
 
 ABOUT = """
 I am a first-year Ph.D. student in a joint training programme between
-<strong>BNU&ndash;HKBU United International College</strong> and
+<strong>Beijing Normal-Hong Kong Baptist University (BNBU)</strong> and
 <strong>Great Bay University</strong>. I received my M.Sc. in Biological Engineering
 from the <strong>University of Saskatchewan</strong> (2026), where I worked with
 Prof.&nbsp;Yen-Han Lin on machine learning approaches for redox potential&ndash;controlled
@@ -56,8 +56,8 @@ can be steered before it fails rather than analysed after it ends.
 """
 
 FACTS = [
-    ("Position",  "Ph.D. Student, Year 1"),
-    ("Programme", "BNU&ndash;HKBU UIC &times; Great Bay University"),
+    ("Position",  "Ph.D. Student, Year 1 &middot; Computer Science"),
+    ("Programme", "Ph.D. in Computer Science &middot; joint training"),
     ("M.Sc.",     "University of Saskatchewan, 2026 (GPA 4.0/4.0)"),
     ("B.Eng.",    "Northwest A&amp;F University, 2024"),
 ]
@@ -101,8 +101,8 @@ PUBLICATIONS = [
 ]
 
 EDUCATION = [
-    ("Ph.D. Student, Biological Engineering", "2026 &ndash; present",
-     "BNU&ndash;HKBU United International College &amp; Great Bay University, Guangdong, China",
+    ("Ph.D. Student, Computer Science", "2026 &ndash; present",
+     "Beijing Normal-Hong Kong Baptist University (BNBU) &amp; Great Bay University, Guangdong, China",
      "Joint training programme. Year 1."),
     ("M.Sc., Biological Engineering", "2025 &ndash; 2026",
      "University of Saskatchewan, Saskatoon, Canada",
