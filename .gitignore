@@ -1,6 +1,7 @@
 # build artefacts / local previews — not part of the published site
 shots/
 extract/
+crops/
 site/
 .git-askpass.sh
 .DS_Store

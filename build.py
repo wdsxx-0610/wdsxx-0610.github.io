@@ -24,6 +24,9 @@ LOCATION  = "Guangdong, China"
 EMAIL     = "vpe029@usask.ca"
 ORCID_ID  = "0009-0002-0780-0417"
 
+# Sidebar portrait. Falls back to an "XL" monogram if the file is absent.
+AVATAR = "images/avatar.jpg"
+
 # Public links — set to None to hide the entry
 LINKS = [
     ("ORCID",          f"https://orcid.org/{ORCID_ID}",    "orcid"),
@@ -279,6 +282,14 @@ def render_timeline(items):
     )
 
 
+def render_avatar():
+    if AVATAR and (HERE / AVATAR).exists():
+        return (f'<div class="avatar">'
+                f'<img src="{AVATAR}" alt="Portrait of {NAME_EN}" width="640" height="640">'
+                f'</div>')
+    return '<div class="avatar" aria-hidden="true">XL</div>'
+
+
 def build():
     facts = "\n".join(
         f'        <div><div class="k">{k}</div><div class="v">{v}</div></div>' for k, v in FACTS
@@ -306,7 +317,7 @@ def build():
 
   <!-- ============================ SIDEBAR ============================ -->
   <aside class="sidebar">
-    <div class="avatar" aria-hidden="true">XL</div>
+    {render_avatar()}
 
     <h1>{NAME_EN}<span class="cn">{NAME_CN}</span></h1>
 
