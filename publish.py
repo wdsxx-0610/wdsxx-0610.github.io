@@ -115,8 +115,10 @@ def main():
         print("  nothing new to commit")
 
     # 4. push using an in-memory credential helper (token never lands in .git/config)
+    #    An explicit empty credential.helper disables osxkeychain, whose cached
+    #    (expired) GitHub token would otherwise be used instead of the askpass value.
     askpass = HERE / ".git-askpass.sh"
-    askpass.write_text("#!/bin/sh\ncase \"$1\" in *Username*) echo x-access-token;; *) echo \"$GH_TOKEN\";; esac\n",
+    askpass.write_text("#!/bin/sh\ncase \"$1\" in *sername*) echo x-access-token;; *) echo \"$GH_TOKEN\";; esac\n",
                        encoding="utf-8")
     askpass.chmod(0o700)
     env = {
@@ -125,6 +127,9 @@ def main():
         "GIT_ASKPASS": str(askpass),
         "GH_TOKEN": token,
         "GIT_TERMINAL_PROMPT": "0",
+        "GIT_CONFIG_COUNT": "1",
+        "GIT_CONFIG_KEY_0": "credential.helper",
+        "GIT_CONFIG_VALUE_0": "",
     }
     remote = f"https://github.com/{user}/{repo}.git"
     remotes = run(["git", "remote"], cwd=HERE).split()
