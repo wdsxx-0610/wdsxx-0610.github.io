@@ -205,7 +205,7 @@ p:last-child { margin-bottom: 0; }
 /* about: quick facts strip */
 .facts {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(190px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(170px, 1fr));
   gap: 1px;
   background: var(--rule);
   border: 1px solid var(--rule);
@@ -214,6 +214,8 @@ p:last-child { margin-bottom: 0; }
   margin: 24px 0 0;
 }
 .facts div { background: #fbfcfd; padding: 14px 16px; }
+/* if the final item wraps onto its own row, let it fill the width */
+.facts div:last-child:nth-child(4n + 1) { grid-column: 1 / -1; }
 .facts dt, .facts .k {
   font-size: 10.5px; letter-spacing: .13em; text-transform: uppercase;
   color: var(--ink-faint); margin-bottom: 4px;
@@ -230,6 +232,20 @@ p:last-child { margin-bottom: 0; }
   border-radius: 999px;
   font-size: 13.5px;
 }
+/* prior-experience chips read as background rather than emphasis */
+.interests.muted li {
+  background: #f5f6f8;
+  border-color: var(--rule-firm);
+  color: var(--ink-soft);
+}
+
+h3.mini {
+  font-size: 13px; font-weight: 600; letter-spacing: .02em;
+  color: var(--ink-soft);
+  margin: 26px 0 11px;
+}
+h3.mini .cn { font-weight: 400; font-size: 12px; color: var(--ink-faint); margin-left: 7px; }
+h3.mini + p { font-size: 14.5px; color: var(--ink-soft); margin-bottom: 12px; }
 
 .callout {
   margin: 22px 0 0;
@@ -351,6 +367,7 @@ p:last-child { margin-bottom: 0; }
   .print-head h1 { margin: 0 0 5px; font-size: 21pt; font-weight: 600; }
   .print-head h1 span { font-size: 14pt; font-weight: 400; color: #555; margin-left: 8px; }
   .print-head p { margin: 0; font-size: 10pt; color: #444; }
+  .print-head p.profiles { margin-top: 4px; font-size: 8.5pt; line-height: 1.45; color: #555; }
 
   section + section { border-top: 0; margin-top: 22px; padding-top: 0; }
   section { break-inside: auto; }

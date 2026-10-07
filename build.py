@@ -48,31 +48,81 @@ very-high-gravity ethanol fermentation, and my B.Eng. in Biological Engineering 
 """
 
 ABOUT_2 = """
-My research sits where <strong>fermentation bioprocess engineering</strong> meets
-<strong>machine learning</strong>. I build soft sensors and kinetic models that turn cheap,
-continuous online signals &mdash; oxidation&ndash;reduction potential (ORP) in particular &mdash;
-into quantitative, forward-looking estimates of metabolic activity, so that a fermentation
-can be steered before it fails rather than analysed after it ends.
+My research sits where <strong>computational biology</strong> meets
+<strong>machine learning</strong>. My Ph.D. direction is <strong>spatial multi-omics</strong>
+and <strong>AI for Science</strong>: building deep learning methods that integrate spatial and
+single-cell measurements &mdash; and their paired imaging &mdash; into interpretable models of
+cells and tissues. I came to this from bioprocess engineering, where I built soft sensors and
+kinetic models that turned cheap online signals into quantitative, forward-looking estimates of
+metabolism; that work is what taught me to treat noisy biological data as something to be
+modelled, not merely measured.
 """
 
 FACTS = [
     ("Position",  "Ph.D. Student, Year 1 &middot; Computer Science"),
     ("Programme", "Ph.D. in Computer Science &middot; joint training"),
+    ("Research focus", "Computational biology &middot; spatial multi-omics &middot; AI4Science"),
     ("M.Sc.",     "University of Saskatchewan, 2026 (GPA 4.0/4.0)"),
     ("B.Eng.",    "Northwest A&amp;F University, 2024"),
 ]
 
 INTERESTS = [
+    # current / forward-looking directions
+    "Computational biology",
+    "Spatial multi-omics",
+    "Spatial transcriptomics",
+    "Single-cell omics",
+    "Multimodal data integration",
+    "AI for Science (AI4Science)",
+    "Machine learning &amp; deep learning",
+    "Graph neural networks",
+    "Generative models",
+    # prior work, kept as background
     "Fermentation process control",
     "Kinetic modelling &amp; parameter inference",
-    "Deep learning for bioprocesses (AI4Bio)",
     "Soft sensing &amp; state estimation",
     "Bayesian uncertainty quantification",
     "Bioenergy &amp; cleaner biomanufacturing",
 ]
 
-OPEN_TO = """I am open to research collaborations and discussions on machine learning for
-bioprocess monitoring, kinetic modelling, and fermentation process control."""
+# The Research section is split so the current direction leads and the
+# wet-lab / bioprocess work reads clearly as prior experience.
+RESEARCH_NARRATIVE = """
+My Ph.D. work moves into <strong>computational biology</strong>, with a focus on
+<strong>spatial multi-omics</strong> and <strong>AI for Science</strong>. I am interested in
+methods that integrate spatial and single-cell omics with imaging and other modalities,
+and in deep generative and graph-based models that turn such measurements into
+interpretable, testable biology &mdash; toward a quantitative, AI-driven view of cells
+and tissues.
+"""
+
+RESEARCH_CURRENT = [
+    "Computational biology &amp; bioinformatics",
+    "Spatial multi-omics &amp; spatial transcriptomics",
+    "Single-cell omics",
+    "Multimodal integration (omics &times; imaging)",
+    "AI4Science &amp; machine learning methods",
+    "Graph neural networks &amp; generative models",
+    "Interpretable, uncertainty-aware prediction",
+]
+
+RESEARCH_PRIOR = [
+    "Fermentation process control",
+    "Kinetic modelling &amp; parameter inference",
+    "Soft sensing &amp; state estimation",
+    "Bayesian uncertainty quantification",
+    "Bioenergy &amp; cleaner biomanufacturing",
+]
+
+RESEARCH_PRIOR_NOTE = """
+Before moving into computational biology I worked on bioprocess engineering and kinetic
+modelling. That background is where my interest in data-driven methods started: fitting
+mechanistic models to sparse, noisy measurements, and quantifying what the data can and
+cannot support.
+"""
+
+OPEN_TO = """I am open to research collaborations and discussions on computational biology,
+spatial and single-cell multi-omics, and AI for science."""
 
 PUBLICATIONS = [
     {
@@ -295,7 +345,11 @@ def build():
     facts = "\n".join(
         f'        <div><div class="k">{k}</div><div class="v">{v}</div></div>' for k, v in FACTS
     )
-    interests = "\n".join(f"        <li>{i}</li>" for i in INTERESTS)
+    def chips(items):
+        return "\n".join(f"          <li>{i}</li>" for i in items)
+
+    interests = chips(RESEARCH_CURRENT)
+    prior = chips(RESEARCH_PRIOR)
     skills = "\n".join(f"        <span>{s}</span>" for s in SKILLS)
 
     html = f"""<!DOCTYPE html>
@@ -351,7 +405,7 @@ def build():
       <h1>{NAME_EN} <span>{NAME_CN}</span></h1>
       <p>{ROLE} &middot; {AFFIL_1} &amp; {AFFIL_2}</p>
       <p>{EMAIL} &middot; {LOCATION}</p>
-      <p>ORCID: https://orcid.org/{ORCID_ID} &middot; Google Scholar: https://scholar.google.com/citations?user={SCHOLAR_ID} &middot; GitHub: https://github.com/{GITHUB_USER}</p>
+      <p class="profiles">ORCID: https://orcid.org/{ORCID_ID}<br>Google Scholar: https://scholar.google.com/citations?user={SCHOLAR_ID}<br>GitHub: https://github.com/{GITHUB_USER}</p>
     </div>
 
     <div class="topbar">
@@ -376,9 +430,19 @@ def build():
     </section>
 
     <section id="research">
-      <h2 class="section-title">Research interests<span class="cn">研究方向</span></h2>
+      <h2 class="section-title">Research<span class="cn">研究方向</span></h2>
+
+      <p class="lead">{RESEARCH_NARRATIVE.strip()}</p>
+
+      <h3 class="mini">Current focus<span class="cn">当前方向</span></h3>
       <ul class="interests">
 {interests}
+      </ul>
+
+      <h3 class="mini">Prior experience<span class="cn">既往经历</span></h3>
+      <p>{RESEARCH_PRIOR_NOTE.strip()}</p>
+      <ul class="interests muted">
+{prior}
       </ul>
     </section>
 
