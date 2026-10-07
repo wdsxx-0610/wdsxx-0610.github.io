@@ -2,12 +2,10 @@
 
 Personal academic homepage: <https://wdsxx-0610.github.io>
 
-Built as a plain static site (HTML + CSS, no build step, no dependencies) and
-served directly by GitHub Pages.
+A plain static site (HTML + CSS, no build step at runtime, no dependencies),
+served directly by GitHub Pages from the repository root.
 
 ## Layout
-
-The repository root is published directly by GitHub Pages.
 
 ```
 .
@@ -15,32 +13,78 @@ The repository root is published directly by GitHub Pages.
 ├── style.css         all styling (screen + print)
 ├── favicon.svg       browser tab icon
 ├── XiangLi_CV.pdf    printable CV, generated from the page itself
+├── images/avatar.jpg sidebar portrait (square, 640×640)
 ├── .nojekyll         tells GitHub Pages to publish files as-is (no Jekyll)
-├── build.py          generator — content lives in the CONTENT block at the top
+├── build.py          generator — all content lives in the CONTENT block at the top
 └── publish.py        one-off script that created the repo and pushed this site
 ```
 
-`build.py` is the source of truth for the page content. It renders
-`site/index.html` from the data structures near the top of the file
-(`ABOUT`, `PUBLICATIONS`, `EDUCATION`, `PROJECTS`, `AWARDS`, `LINKS`, …).
+## How to change any text (the everyday workflow)
 
-## Editing
+1. **Edit** `build.py` — every word on the page comes from the `CONTENT` block
+   in the first ~120 lines.
+2. **Rebuild** to regenerate `index.html`:
+   ```bash
+   python3 build.py
+   ```
+   It prints `wrote .../index.html`. The live site has not changed yet.
+3. **Preview** before publishing:
+   ```bash
+   python3 -m http.server 8765 --directory .
+   ```
+   Then open <http://127.0.0.1:8765>. Hard-refresh (Cmd+Shift+R) to defeat cache.
+4. **Publish**:
+   ```bash
+   git add -A
+   git commit -m "Update research interests"
+   git push
+   ```
+   GitHub Pages redeploys in about 1–2 minutes.
 
-Most updates only need the content block in `build.py`:
+One-liner for a single text change:
 
 ```bash
-python3 build.py                     # regenerate site/index.html
+cd /Users/wdsxx0610/Documents/deepseek-harness/default-workspace/homepage-build
+# edit build.py in any text editor, then:
+python3 build.py && git add -A && git commit -m "Update text" && git push
 ```
 
-Then preview locally and commit:
+### Where each piece of text lives
 
-```bash
-python3 -m http.server 8765 --directory site
-# open http://127.0.0.1:8765
-git add -A && git commit -m "Update publications" && git push
-```
+| What you see on the page | Where to edit in `build.py` |
+|---|---|
+| Sidebar name / 中文名 | `NAME_EN`, `NAME_CN` |
+| "Ph.D. Student in Computer Science" | `ROLE` |
+| University names in the sidebar | `AFFIL_1`, `AFFIL_2` |
+| Location | `LOCATION` |
+| Contact email | `EMAIL` |
+| Scholar / ORCID / GitHub links | `SCHOLAR_ID`, `ORCID_ID`, `LINKS` |
+| "About me" paragraphs | `ABOUT`, `ABOUT_2` |
+| Quick-facts strip | `FACTS` |
+| Research interest chips | `INTERESTS` |
+| The collaboration callout box | `OPEN_TO` |
+| Papers | `PUBLICATIONS` |
+| Education entries | `EDUCATION` |
+| Research projects | `PROJECTS` |
+| Visits / industry jobs | `RESEARCH_VISITS`, `INDUSTRY` |
+| Awards | `AWARDS` |
+| Skills chips | `SKILLS` |
 
-To add a publication, append a dict to `PUBLICATIONS`:
+**Some text appears in more than one place.** Renaming the university or the
+programme means updating several entries:
+
+- university name → `AFFIL_1` (sidebar), inside the `ABOUT` paragraph,
+  and in `EDUCATION`
+- programme → `ROLE`, `FACTS`, and `EDUCATION`
+
+Formatting inside these strings is HTML: `<strong>bold</strong>`,
+`<em>italic</em>`, `&ndash;` (–), `&mdash;` (—), `&amp;` (&), `&middot;` (·).
+A plain apostrophe inside a `"..."` string is fine; a double quote is not — use
+`&ldquo;`/`&rdquo;` or switch that string to single quotes.
+
+### Adding a publication
+
+Append a dict to `PUBLICATIONS`:
 
 ```python
 {
@@ -52,28 +96,37 @@ To add a publication, append a dict to `PUBLICATIONS`:
 },
 ```
 
+`tag` controls the coloured badge: `published` (green), `review` (amber),
+`conf` (purple).
+
 ## Regenerating the CV PDF
 
-The CV PDF uses the page's print stylesheet, which drops the sidebar and adds a
-header. With Google Chrome installed:
+The PDF is printed from the page's own print stylesheet, which drops the
+sidebar and adds a text header with your contact links. Start the preview server
+first, then run:
 
 ```bash
 "/Applications/Google Chrome.app/Contents/MacOS/Google Chrome" \
   --headless --disable-gpu --no-pdf-header-footer \
-  --print-to-pdf=site/XiangLi_CV.pdf --virtual-time-budget=4000 \
+  --print-to-pdf=XiangLi_CV.pdf --virtual-time-budget=4000 \
   http://127.0.0.1:8765/index.html
 ```
 
+## Replacing the profile photo
+
+`images/avatar.jpg` is a square crop kept in `build.py` as `AVATAR`. To use a new
+photo, crop it to a square centred on your face (640×640 or larger), overwrite
+`images/avatar.jpg`, and re-run `python3 build.py`. If the file is missing, the
+sidebar falls back to an "XL" monogram automatically.
+
 ## Things worth adding later
 
-- **Profile photo** — drop a square image at `site/images/avatar.jpg` and replace
-  `<div class="avatar" aria-hidden="true">XL</div>` in `site/index.html` with
-  `<div class="avatar"><img src="images/avatar.jpg" alt="Xiang Li"></div>`.
-- **ORCID / Google Scholar / ResearchGate** — set the URLs in the `LINKS` list in
-  `build.py` (currently `None`, so those entries are hidden).
-- **Poster PDF** — add `site/YABEC2026_poster.pdf` and link it from the poster entry.
+- **Poster PDF** — add `YABEC2026_poster.pdf` and link it from the poster entry
+  in `PUBLICATIONS`.
+- **Citation counts** — once Google Scholar indexes your work, the numbers can be
+  added to the publication entries.
 
 ## Deployment
 
-GitHub Pages is configured to serve the `main` branch from the repository root.
-No actions or CI are required.
+GitHub Pages serves the `main` branch from the repository root. No CI or
+workflow files are involved.
