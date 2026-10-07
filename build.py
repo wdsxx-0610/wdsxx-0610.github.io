@@ -23,14 +23,15 @@ AFFIL_2   = "Great Bay University"
 LOCATION  = "Guangdong, China"
 EMAIL     = "vpe029@usask.ca"
 ORCID_ID  = "0009-0002-0780-0417"
+SCHOLAR_ID = "CgRE7owAAAAJ"
 
 # Sidebar portrait. Falls back to an "XL" monogram if the file is absent.
 AVATAR = "images/avatar.jpg"
 
 # Public links — set to None to hide the entry
 LINKS = [
+    ("Google Scholar", f"https://scholar.google.com/citations?hl=en&user={SCHOLAR_ID}", "scholar"),
     ("ORCID",          f"https://orcid.org/{ORCID_ID}",    "orcid"),
-    ("Google Scholar", None,                               "scholar"),
     ("GitHub",         f"https://github.com/{GITHUB_USER}","github"),
     ("ResearchGate",   None,                               "researchgate"),
     ("Email",          f"mailto:{EMAIL}",                 "email"),
@@ -350,7 +351,7 @@ def build():
       <h1>{NAME_EN} <span>{NAME_CN}</span></h1>
       <p>{ROLE} &middot; {AFFIL_1} &amp; {AFFIL_2}</p>
       <p>{EMAIL} &middot; {LOCATION}</p>
-      <p>ORCID: https://orcid.org/{ORCID_ID} &middot; GitHub: https://github.com/{GITHUB_USER}</p>
+      <p>ORCID: https://orcid.org/{ORCID_ID} &middot; Google Scholar: https://scholar.google.com/citations?user={SCHOLAR_ID} &middot; GitHub: https://github.com/{GITHUB_USER}</p>
     </div>
 
     <div class="topbar">
